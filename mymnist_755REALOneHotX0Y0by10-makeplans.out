@@ -1,0 +1,879 @@
+samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/domain.pddl
+puzzle-mnist-3-3
+samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/puzzle-mnist-3-3
+Default float: float32
+@[     0.237 +     0.237] loaded puzzle
+Loading networks from samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x7f8a07546ee0>
+[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f8a07546ee0>
+<keras.layers.normalization.BatchNormalization object at 0x7f8a075f3550>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f8a075f3550>
+<keras.layers.core.Dropout object at 0x7f8a075e8df0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f8a075e8df0>
+<keras.layers.convolutional.Conv2D object at 0x7f8a07601370>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f8a07601370>
+<keras.layers.normalization.BatchNormalization object at 0x7f8a07552a30>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f8a07552a30>
+<keras.layers.core.Dropout object at 0x7f8a07552ee0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f8a07552ee0>
+latent space shape is (48, 48, 32) : 100 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x7f8a074e4610>
+[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x7f8a074e4610>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f8a074e4640>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f8a074e4640>
+<keras.layers.normalization.BatchNormalization object at 0x7f8a074e4790>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f8a074e4790>
+<keras.layers.core.Dropout object at 0x7f8a074e4dc0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f8a074e4dc0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f8a074e4760>
+(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f8a074e4760>
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2, 48, 48, 1) 0                                            
+__________________________________________________________________________________________________
+lambda_6 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+lambda_5 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+gaussian_noise_1 (GaussianNoise (None, 48, 48, 1)    0           lambda_5[0][0]                   
+                                                                 lambda_6[0][0]                   
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 48, 48, 1)    4           gaussian_noise_1[0][0]           
+                                                                 gaussian_noise_1[1][0]           
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 48, 48, 32)   800         batch_normalization_2[0][0]      
+                                                                 batch_normalization_2[1][0]      
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 48, 48, 32)   128         conv2d_1[0][0]                   
+                                                                 conv2d_1[1][0]                   
+__________________________________________________________________________________________________
+dropout_2 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_3[0][0]      
+                                                                 batch_normalization_3[1][0]      
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 48, 48, 32)   25600       dropout_2[0][0]                  
+                                                                 dropout_2[1][0]                  
+__________________________________________________________________________________________________
+batch_normalization_4 (BatchNor (None, 48, 48, 32)   128         conv2d_2[0][0]                   
+                                                                 conv2d_2[1][0]                   
+__________________________________________________________________________________________________
+dropout_3 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_4[0][0]      
+                                                                 batch_normalization_4[1][0]      
+__________________________________________________________________________________________________
+reshape_3 (Reshape)             (None, 73728)        0           dropout_3[0][0]                  
+                                                                 dropout_3[1][0]                  
+__________________________________________________________________________________________________
+input_2 (InputLayer)            (None, 24)           0                                            
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 100)          7372900     reshape_3[0][0]                  
+                                                                 reshape_3[1][0]                  
+__________________________________________________________________________________________________
+my_flatten_1 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+my_flatten_2 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+binary_concrete_1 (BinaryConcre (None, 100)          0           dense_5[0][0]                    
+                                                                 dense_5[1][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 100)          2400        my_flatten_1[0][0]               
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 100)          2400        my_flatten_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_9 (BatchNor (None, 100)          400         binary_concrete_1[1][0]          
+__________________________________________________________________________________________________
+batch_normalization_8 (BatchNor (None, 100)          400         dense_7[0][0]                    
+__________________________________________________________________________________________________
+batch_normalization_11 (BatchNo (None, 100)          400         binary_concrete_1[0][0]          
+__________________________________________________________________________________________________
+batch_normalization_10 (BatchNo (None, 100)          400         dense_8[0][0]                    
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 100)          0           batch_normalization_9[0][0]      
+                                                                 batch_normalization_8[0][0]      
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 100)          0           batch_normalization_11[0][0]     
+                                                                 batch_normalization_10[0][0]     
+__________________________________________________________________________________________________
+binary_concrete_3 (BinaryConcre (None, 100)          0           add_2[0][0]                      
+__________________________________________________________________________________________________
+binary_concrete_2 (BinaryConcre (None, 100)          0           add_1[0][0]                      
+__________________________________________________________________________________________________
+batch_normalization_5 (BatchNor (None, 100)          400         binary_concrete_2[0][0]          
+                                                                 binary_concrete_3[0][0]          
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 73728)        7446528     batch_normalization_5[2][0]      
+                                                                 batch_normalization_5[3][0]      
+__________________________________________________________________________________________________
+batch_normalization_6 (BatchNor (None, 73728)        294912      dense_6[2][0]                    
+                                                                 dense_6[3][0]                    
+__________________________________________________________________________________________________
+dropout_4 (Dropout)             (None, 73728)        0           batch_normalization_6[2][0]      
+                                                                 batch_normalization_6[3][0]      
+__________________________________________________________________________________________________
+reshape_4 (Reshape)             (None, 48, 48, 32)   0           dropout_4[2][0]                  
+                                                                 dropout_4[3][0]                  
+__________________________________________________________________________________________________
+conv2d_transpose_1 (Conv2DTrans (None, 48, 48, 32)   25600       reshape_4[2][0]                  
+                                                                 reshape_4[3][0]                  
+__________________________________________________________________________________________________
+batch_normalization_7 (BatchNor (None, 48, 48, 32)   128         conv2d_transpose_1[2][0]         
+                                                                 conv2d_transpose_1[3][0]         
+__________________________________________________________________________________________________
+dropout_5 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_7[2][0]      
+                                                                 batch_normalization_7[3][0]      
+__________________________________________________________________________________________________
+conv2d_transpose_2 (Conv2DTrans (None, 48, 48, 1)    801         dropout_5[2][0]                  
+                                                                 dropout_5[3][0]                  
+__________________________________________________________________________________________________
+reshape_5 (Reshape)             (None, 48, 48, 1)    0           conv2d_transpose_2[2][0]         
+                                                                 conv2d_transpose_2[3][0]         
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 48, 48, 1)    0           reshape_5[2][0]                  
+                                                                 reshape_5[3][0]                  
+__________________________________________________________________________________________________
+lambda_17 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[3][0]               
+__________________________________________________________________________________________________
+lambda_18 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[2][0]               
+__________________________________________________________________________________________________
+dmerge_5 (Concatenate)          (None, 2, 48, 48, 1) 0           lambda_17[0][0]                  
+                                                                 lambda_18[0][0]                  
+==================================================================================================
+Total params: 15,174,329
+Trainable params: 15,025,679
+Non-trainable params: 148,650
+__________________________________________________________________________________________________
+Default float: float32
+@[     0.227 +     0.227] loaded puzzle
+Loading networks from samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x7fd8071400a0>
+[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7fd8071400a0>
+<keras.layers.normalization.BatchNormalization object at 0x7fd807063700>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7fd807063700>
+<keras.layers.core.Dropout object at 0x7fd807063df0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7fd807063df0>
+<keras.layers.convolutional.Conv2D object at 0x7fd80704cdc0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7fd80704cdc0>
+<keras.layers.normalization.BatchNormalization object at 0x7fd80704ce50>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7fd80704ce50>
+<keras.layers.core.Dropout object at 0x7fd80704cc10>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7fd80704cc10>
+latent space shape is (48, 48, 32) : 100 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x7fd806fdd730>
+[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x7fd806fdd730>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7fd806fdd760>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x7fd806fdd760>
+<keras.layers.normalization.BatchNormalization object at 0x7fd806fdd8b0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7fd806fdd8b0>
+<keras.layers.core.Dropout object at 0x7fd806fddee0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7fd806fddee0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7fd806fdd880>
+(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x7fd806fdd880>
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2, 48, 48, 1) 0                                            
+__________________________________________________________________________________________________
+lambda_6 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+lambda_5 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+gaussian_noise_1 (GaussianNoise (None, 48, 48, 1)    0           lambda_5[0][0]                   
+                                                                 lambda_6[0][0]                   
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 48, 48, 1)    4           gaussian_noise_1[0][0]           
+                                                                 gaussian_noise_1[1][0]           
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 48, 48, 32)   800         batch_normalization_2[0][0]      
+                                                                 batch_normalization_2[1][0]      
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 48, 48, 32)   128         conv2d_1[0][0]                   
+                                                                 conv2d_1[1][0]                   
+__________________________________________________________________________________________________
+dropout_2 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_3[0][0]      
+                                                                 batch_normalization_3[1][0]      
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 48, 48, 32)   25600       dropout_2[0][0]                  
+                                                                 dropout_2[1][0]                  
+__________________________________________________________________________________________________
+batch_normalization_4 (BatchNor (None, 48, 48, 32)   128         conv2d_2[0][0]                   
+                                                                 conv2d_2[1][0]                   
+__________________________________________________________________________________________________
+dropout_3 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_4[0][0]      
+                                                                 batch_normalization_4[1][0]      
+__________________________________________________________________________________________________
+reshape_3 (Reshape)             (None, 73728)        0           dropout_3[0][0]                  
+                                                                 dropout_3[1][0]                  
+__________________________________________________________________________________________________
+input_2 (InputLayer)            (None, 24)           0                                            
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 100)          7372900     reshape_3[0][0]                  
+                                                                 reshape_3[1][0]                  
+__________________________________________________________________________________________________
+my_flatten_1 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+my_flatten_2 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+binary_concrete_1 (BinaryConcre (None, 100)          0           dense_5[0][0]                    
+                                                                 dense_5[1][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 100)          2400        my_flatten_1[0][0]               
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 100)          2400        my_flatten_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_9 (BatchNor (None, 100)          400         binary_concrete_1[1][0]          
+__________________________________________________________________________________________________
+batch_normalization_8 (BatchNor (None, 100)          400         dense_7[0][0]                    
+__________________________________________________________________________________________________
+batch_normalization_11 (BatchNo (None, 100)          400         binary_concrete_1[0][0]          
+__________________________________________________________________________________________________
+batch_normalization_10 (BatchNo (None, 100)          400         dense_8[0][0]                    
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 100)          0           batch_normalization_9[0][0]      
+                                                                 batch_normalization_8[0][0]      
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 100)          0           batch_normalization_11[0][0]     
+                                                                 batch_normalization_10[0][0]     
+__________________________________________________________________________________________________
+binary_concrete_3 (BinaryConcre (None, 100)          0           add_2[0][0]                      
+__________________________________________________________________________________________________
+binary_concrete_2 (BinaryConcre (None, 100)          0           add_1[0][0]                      
+__________________________________________________________________________________________________
+batch_normalization_5 (BatchNor (None, 100)          400         binary_concrete_2[0][0]          
+                                                                 binary_concrete_3[0][0]          
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 73728)        7446528     batch_normalization_5[2][0]      
+                                                                 batch_normalization_5[3][0]      
+__________________________________________________________________________________________________
+batch_normalization_6 (BatchNor (None, 73728)        294912      dense_6[2][0]                    
+                                                                 dense_6[3][0]                    
+__________________________________________________________________________________________________
+dropout_4 (Dropout)             (None, 73728)        0           batch_normalization_6[2][0]      
+                                                                 batch_normalization_6[3][0]      
+__________________________________________________________________________________________________
+reshape_4 (Reshape)             (None, 48, 48, 32)   0           dropout_4[2][0]                  
+                                                                 dropout_4[3][0]                  
+__________________________________________________________________________________________________
+conv2d_transpose_1 (Conv2DTrans (None, 48, 48, 32)   25600       reshape_4[2][0]                  
+                                                                 reshape_4[3][0]                  
+__________________________________________________________________________________________________
+batch_normalization_7 (BatchNor (None, 48, 48, 32)   128         conv2d_transpose_1[2][0]         
+                                                                 conv2d_transpose_1[3][0]         
+__________________________________________________________________________________________________
+dropout_5 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_7[2][0]      
+                                                                 batch_normalization_7[3][0]      
+__________________________________________________________________________________________________
+conv2d_transpose_2 (Conv2DTrans (None, 48, 48, 1)    801         dropout_5[2][0]                  
+                                                                 dropout_5[3][0]                  
+__________________________________________________________________________________________________
+reshape_5 (Reshape)             (None, 48, 48, 1)    0           conv2d_transpose_2[2][0]         
+                                                                 conv2d_transpose_2[3][0]         
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 48, 48, 1)    0           reshape_5[2][0]                  
+                                                                 reshape_5[3][0]                  
+__________________________________________________________________________________________________
+lambda_17 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[3][0]               
+__________________________________________________________________________________________________
+lambda_18 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[2][0]               
+__________________________________________________________________________________________________
+dmerge_5 (Concatenate)          (None, 2, 48, 48, 1) 0           lambda_17[0][0]                  
+                                                                 lambda_18[0][0]                  
+==================================================================================================
+Total params: 15,174,329
+Trainable params: 15,025,679
+Non-trainable params: 148,650
+__________________________________________________________________________________________________
+Default float: float32
+@[     0.217 +     0.217] loaded puzzle
+Loading networks from samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x7f79472ec0a0>
+[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f79472ec0a0>
+<keras.layers.normalization.BatchNormalization object at 0x7f7947210700>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f7947210700>
+<keras.layers.core.Dropout object at 0x7f7947210df0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f7947210df0>
+<keras.layers.convolutional.Conv2D object at 0x7f79471f9dc0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f79471f9dc0>
+<keras.layers.normalization.BatchNormalization object at 0x7f79471f9e50>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f79471f9e50>
+<keras.layers.core.Dropout object at 0x7f79471f9c10>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f79471f9c10>
+latent space shape is (48, 48, 32) : 100 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x7f7947189730>
+[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x7f7947189730>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f7947189760>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f7947189760>
+<keras.layers.normalization.BatchNormalization object at 0x7f79471898b0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f79471898b0>
+<keras.layers.core.Dropout object at 0x7f7947189ee0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f7947189ee0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f7947189880>
+(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f7947189880>
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2, 48, 48, 1) 0                                            
+__________________________________________________________________________________________________
+lambda_6 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+lambda_5 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+gaussian_noise_1 (GaussianNoise (None, 48, 48, 1)    0           lambda_5[0][0]                   
+                                                                 lambda_6[0][0]                   
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 48, 48, 1)    4           gaussian_noise_1[0][0]           
+                                                                 gaussian_noise_1[1][0]           
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 48, 48, 32)   800         batch_normalization_2[0][0]      
+                                                                 batch_normalization_2[1][0]      
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 48, 48, 32)   128         conv2d_1[0][0]                   
+                                                                 conv2d_1[1][0]                   
+__________________________________________________________________________________________________
+dropout_2 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_3[0][0]      
+                                                                 batch_normalization_3[1][0]      
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 48, 48, 32)   25600       dropout_2[0][0]                  
+                                                                 dropout_2[1][0]                  
+__________________________________________________________________________________________________
+batch_normalization_4 (BatchNor (None, 48, 48, 32)   128         conv2d_2[0][0]                   
+                                                                 conv2d_2[1][0]                   
+__________________________________________________________________________________________________
+dropout_3 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_4[0][0]      
+                                                                 batch_normalization_4[1][0]      
+__________________________________________________________________________________________________
+reshape_3 (Reshape)             (None, 73728)        0           dropout_3[0][0]                  
+                                                                 dropout_3[1][0]                  
+__________________________________________________________________________________________________
+input_2 (InputLayer)            (None, 24)           0                                            
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 100)          7372900     reshape_3[0][0]                  
+                                                                 reshape_3[1][0]                  
+__________________________________________________________________________________________________
+my_flatten_1 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+my_flatten_2 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+binary_concrete_1 (BinaryConcre (None, 100)          0           dense_5[0][0]                    
+                                                                 dense_5[1][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 100)          2400        my_flatten_1[0][0]               
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 100)          2400        my_flatten_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_9 (BatchNor (None, 100)          400         binary_concrete_1[1][0]          
+__________________________________________________________________________________________________
+batch_normalization_8 (BatchNor (None, 100)          400         dense_7[0][0]                    
+__________________________________________________________________________________________________
+batch_normalization_11 (BatchNo (None, 100)          400         binary_concrete_1[0][0]          
+__________________________________________________________________________________________________
+batch_normalization_10 (BatchNo (None, 100)          400         dense_8[0][0]                    
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 100)          0           batch_normalization_9[0][0]      
+                                                                 batch_normalization_8[0][0]      
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 100)          0           batch_normalization_11[0][0]     
+                                                                 batch_normalization_10[0][0]     
+__________________________________________________________________________________________________
+binary_concrete_3 (BinaryConcre (None, 100)          0           add_2[0][0]                      
+__________________________________________________________________________________________________
+binary_concrete_2 (BinaryConcre (None, 100)          0           add_1[0][0]                      
+__________________________________________________________________________________________________
+batch_normalization_5 (BatchNor (None, 100)          400         binary_concrete_2[0][0]          
+                                                                 binary_concrete_3[0][0]          
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 73728)        7446528     batch_normalization_5[2][0]      
+                                                                 batch_normalization_5[3][0]      
+__________________________________________________________________________________________________
+batch_normalization_6 (BatchNor (None, 73728)        294912      dense_6[2][0]                    
+                                                                 dense_6[3][0]                    
+__________________________________________________________________________________________________
+dropout_4 (Dropout)             (None, 73728)        0           batch_normalization_6[2][0]      
+                                                                 batch_normalization_6[3][0]      
+__________________________________________________________________________________________________
+reshape_4 (Reshape)             (None, 48, 48, 32)   0           dropout_4[2][0]                  
+                                                                 dropout_4[3][0]                  
+__________________________________________________________________________________________________
+conv2d_transpose_1 (Conv2DTrans (None, 48, 48, 32)   25600       reshape_4[2][0]                  
+                                                                 reshape_4[3][0]                  
+__________________________________________________________________________________________________
+batch_normalization_7 (BatchNor (None, 48, 48, 32)   128         conv2d_transpose_1[2][0]         
+                                                                 conv2d_transpose_1[3][0]         
+__________________________________________________________________________________________________
+dropout_5 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_7[2][0]      
+                                                                 batch_normalization_7[3][0]      
+__________________________________________________________________________________________________
+conv2d_transpose_2 (Conv2DTrans (None, 48, 48, 1)    801         dropout_5[2][0]                  
+                                                                 dropout_5[3][0]                  
+__________________________________________________________________________________________________
+reshape_5 (Reshape)             (None, 48, 48, 1)    0           conv2d_transpose_2[2][0]         
+                                                                 conv2d_transpose_2[3][0]         
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 48, 48, 1)    0           reshape_5[2][0]                  
+                                                                 reshape_5[3][0]                  
+__________________________________________________________________________________________________
+lambda_17 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[3][0]               
+__________________________________________________________________________________________________
+lambda_18 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[2][0]               
+__________________________________________________________________________________________________
+dmerge_5 (Concatenate)          (None, 2, 48, 48, 1) 0           lambda_17[0][0]                  
+                                                                 lambda_18[0][0]                  
+==================================================================================================
+Total params: 15,174,329
+Trainable params: 15,025,679
+Non-trainable params: 148,650
+__________________________________________________________________________________________________
+Default float: float32
+@[     0.233 +     0.233] loaded puzzle
+Loading networks from samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x7f24975be0a0>
+[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f24975be0a0>
+<keras.layers.normalization.BatchNormalization object at 0x7f24974e2700>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f24974e2700>
+<keras.layers.core.Dropout object at 0x7f24974e2df0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f24974e2df0>
+<keras.layers.convolutional.Conv2D object at 0x7f24974cadc0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f24974cadc0>
+<keras.layers.normalization.BatchNormalization object at 0x7f24974cae50>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f24974cae50>
+<keras.layers.core.Dropout object at 0x7f24974cac10>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f24974cac10>
+latent space shape is (48, 48, 32) : 100 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x7f249745b730>
+[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x7f249745b730>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f249745b760>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f249745b760>
+<keras.layers.normalization.BatchNormalization object at 0x7f249745b8b0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f249745b8b0>
+<keras.layers.core.Dropout object at 0x7f249745bee0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f249745bee0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f249745b880>
+(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f249745b880>
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2, 48, 48, 1) 0                                            
+__________________________________________________________________________________________________
+lambda_6 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+lambda_5 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+gaussian_noise_1 (GaussianNoise (None, 48, 48, 1)    0           lambda_5[0][0]                   
+                                                                 lambda_6[0][0]                   
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 48, 48, 1)    4           gaussian_noise_1[0][0]           
+                                                                 gaussian_noise_1[1][0]           
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 48, 48, 32)   800         batch_normalization_2[0][0]      
+                                                                 batch_normalization_2[1][0]      
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 48, 48, 32)   128         conv2d_1[0][0]                   
+                                                                 conv2d_1[1][0]                   
+__________________________________________________________________________________________________
+dropout_2 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_3[0][0]      
+                                                                 batch_normalization_3[1][0]      
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 48, 48, 32)   25600       dropout_2[0][0]                  
+                                                                 dropout_2[1][0]                  
+__________________________________________________________________________________________________
+batch_normalization_4 (BatchNor (None, 48, 48, 32)   128         conv2d_2[0][0]                   
+                                                                 conv2d_2[1][0]                   
+__________________________________________________________________________________________________
+dropout_3 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_4[0][0]      
+                                                                 batch_normalization_4[1][0]      
+__________________________________________________________________________________________________
+reshape_3 (Reshape)             (None, 73728)        0           dropout_3[0][0]                  
+                                                                 dropout_3[1][0]                  
+__________________________________________________________________________________________________
+input_2 (InputLayer)            (None, 24)           0                                            
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 100)          7372900     reshape_3[0][0]                  
+                                                                 reshape_3[1][0]                  
+__________________________________________________________________________________________________
+my_flatten_1 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+my_flatten_2 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+binary_concrete_1 (BinaryConcre (None, 100)          0           dense_5[0][0]                    
+                                                                 dense_5[1][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 100)          2400        my_flatten_1[0][0]               
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 100)          2400        my_flatten_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_9 (BatchNor (None, 100)          400         binary_concrete_1[1][0]          
+__________________________________________________________________________________________________
+batch_normalization_8 (BatchNor (None, 100)          400         dense_7[0][0]                    
+__________________________________________________________________________________________________
+batch_normalization_11 (BatchNo (None, 100)          400         binary_concrete_1[0][0]          
+__________________________________________________________________________________________________
+batch_normalization_10 (BatchNo (None, 100)          400         dense_8[0][0]                    
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 100)          0           batch_normalization_9[0][0]      
+                                                                 batch_normalization_8[0][0]      
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 100)          0           batch_normalization_11[0][0]     
+                                                                 batch_normalization_10[0][0]     
+__________________________________________________________________________________________________
+binary_concrete_3 (BinaryConcre (None, 100)          0           add_2[0][0]                      
+__________________________________________________________________________________________________
+binary_concrete_2 (BinaryConcre (None, 100)          0           add_1[0][0]                      
+__________________________________________________________________________________________________
+batch_normalization_5 (BatchNor (None, 100)          400         binary_concrete_2[0][0]          
+                                                                 binary_concrete_3[0][0]          
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 73728)        7446528     batch_normalization_5[2][0]      
+                                                                 batch_normalization_5[3][0]      
+__________________________________________________________________________________________________
+batch_normalization_6 (BatchNor (None, 73728)        294912      dense_6[2][0]                    
+                                                                 dense_6[3][0]                    
+__________________________________________________________________________________________________
+dropout_4 (Dropout)             (None, 73728)        0           batch_normalization_6[2][0]      
+                                                                 batch_normalization_6[3][0]      
+__________________________________________________________________________________________________
+reshape_4 (Reshape)             (None, 48, 48, 32)   0           dropout_4[2][0]                  
+                                                                 dropout_4[3][0]                  
+__________________________________________________________________________________________________
+conv2d_transpose_1 (Conv2DTrans (None, 48, 48, 32)   25600       reshape_4[2][0]                  
+                                                                 reshape_4[3][0]                  
+__________________________________________________________________________________________________
+batch_normalization_7 (BatchNor (None, 48, 48, 32)   128         conv2d_transpose_1[2][0]         
+                                                                 conv2d_transpose_1[3][0]         
+__________________________________________________________________________________________________
+dropout_5 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_7[2][0]      
+                                                                 batch_normalization_7[3][0]      
+__________________________________________________________________________________________________
+conv2d_transpose_2 (Conv2DTrans (None, 48, 48, 1)    801         dropout_5[2][0]                  
+                                                                 dropout_5[3][0]                  
+__________________________________________________________________________________________________
+reshape_5 (Reshape)             (None, 48, 48, 1)    0           conv2d_transpose_2[2][0]         
+                                                                 conv2d_transpose_2[3][0]         
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 48, 48, 1)    0           reshape_5[2][0]                  
+                                                                 reshape_5[3][0]                  
+__________________________________________________________________________________________________
+lambda_17 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[3][0]               
+__________________________________________________________________________________________________
+lambda_18 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[2][0]               
+__________________________________________________________________________________________________
+dmerge_5 (Concatenate)          (None, 2, 48, 48, 1) 0           lambda_17[0][0]                  
+                                                                 lambda_18[0][0]                  
+==================================================================================================
+Total params: 15,174,329
+Trainable params: 15,025,679
+Non-trainable params: 148,650
+__________________________________________________________________________________________________
+Default float: float32
+@[     0.218 +     0.218] loaded puzzle
+Loading networks from samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x7f216c693040>
+[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f216c693040>
+<keras.layers.normalization.BatchNormalization object at 0x7f216c5b7910>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f216c5b7910>
+<keras.layers.core.Dropout object at 0x7f216c5b7520>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f216c5b7520>
+<keras.layers.convolutional.Conv2D object at 0x7f216c5b7610>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f216c5b7610>
+<keras.layers.normalization.BatchNormalization object at 0x7f216c59f760>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f216c59f760>
+<keras.layers.core.Dropout object at 0x7f216c59f640>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f216c59f640>
+latent space shape is (48, 48, 32) : 100 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x7f216c5326d0>
+[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x7f216c5326d0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f216c532700>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f216c532700>
+<keras.layers.normalization.BatchNormalization object at 0x7f216c532850>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f216c532850>
+<keras.layers.core.Dropout object at 0x7f216c532e80>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f216c532e80>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f216c532820>
+(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f216c532820>
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2, 48, 48, 1) 0                                            
+__________________________________________________________________________________________________
+lambda_6 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+lambda_5 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+gaussian_noise_1 (GaussianNoise (None, 48, 48, 1)    0           lambda_5[0][0]                   
+                                                                 lambda_6[0][0]                   
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 48, 48, 1)    4           gaussian_noise_1[0][0]           
+                                                                 gaussian_noise_1[1][0]           
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 48, 48, 32)   800         batch_normalization_2[0][0]      
+                                                                 batch_normalization_2[1][0]      
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 48, 48, 32)   128         conv2d_1[0][0]                   
+                                                                 conv2d_1[1][0]                   
+__________________________________________________________________________________________________
+dropout_2 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_3[0][0]      
+                                                                 batch_normalization_3[1][0]      
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 48, 48, 32)   25600       dropout_2[0][0]                  
+                                                                 dropout_2[1][0]                  
+__________________________________________________________________________________________________
+batch_normalization_4 (BatchNor (None, 48, 48, 32)   128         conv2d_2[0][0]                   
+                                                                 conv2d_2[1][0]                   
+__________________________________________________________________________________________________
+dropout_3 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_4[0][0]      
+                                                                 batch_normalization_4[1][0]      
+__________________________________________________________________________________________________
+reshape_3 (Reshape)             (None, 73728)        0           dropout_3[0][0]                  
+                                                                 dropout_3[1][0]                  
+__________________________________________________________________________________________________
+input_2 (InputLayer)            (None, 24)           0                                            
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 100)          7372900     reshape_3[0][0]                  
+                                                                 reshape_3[1][0]                  
+__________________________________________________________________________________________________
+my_flatten_1 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+my_flatten_2 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+binary_concrete_1 (BinaryConcre (None, 100)          0           dense_5[0][0]                    
+                                                                 dense_5[1][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 100)          2400        my_flatten_1[0][0]               
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 100)          2400        my_flatten_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_9 (BatchNor (None, 100)          400         binary_concrete_1[1][0]          
+__________________________________________________________________________________________________
+batch_normalization_8 (BatchNor (None, 100)          400         dense_7[0][0]                    
+__________________________________________________________________________________________________
+batch_normalization_11 (BatchNo (None, 100)          400         binary_concrete_1[0][0]          
+__________________________________________________________________________________________________
+batch_normalization_10 (BatchNo (None, 100)          400         dense_8[0][0]                    
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 100)          0           batch_normalization_9[0][0]      
+                                                                 batch_normalization_8[0][0]      
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 100)          0           batch_normalization_11[0][0]     
+                                                                 batch_normalization_10[0][0]     
+__________________________________________________________________________________________________
+binary_concrete_3 (BinaryConcre (None, 100)          0           add_2[0][0]                      
+__________________________________________________________________________________________________
+binary_concrete_2 (BinaryConcre (None, 100)          0           add_1[0][0]                      
+__________________________________________________________________________________________________
+batch_normalization_5 (BatchNor (None, 100)          400         binary_concrete_2[0][0]          
+                                                                 binary_concrete_3[0][0]          
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 73728)        7446528     batch_normalization_5[2][0]      
+                                                                 batch_normalization_5[3][0]      
+__________________________________________________________________________________________________
+batch_normalization_6 (BatchNor (None, 73728)        294912      dense_6[2][0]                    
+                                                                 dense_6[3][0]                    
+__________________________________________________________________________________________________
+dropout_4 (Dropout)             (None, 73728)        0           batch_normalization_6[2][0]      
+                                                                 batch_normalization_6[3][0]      
+__________________________________________________________________________________________________
+reshape_4 (Reshape)             (None, 48, 48, 32)   0           dropout_4[2][0]                  
+                                                                 dropout_4[3][0]                  
+__________________________________________________________________________________________________
+conv2d_transpose_1 (Conv2DTrans (None, 48, 48, 32)   25600       reshape_4[2][0]                  
+                                                                 reshape_4[3][0]                  
+__________________________________________________________________________________________________
+batch_normalization_7 (BatchNor (None, 48, 48, 32)   128         conv2d_transpose_1[2][0]         
+                                                                 conv2d_transpose_1[3][0]         
+__________________________________________________________________________________________________
+dropout_5 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_7[2][0]      
+                                                                 batch_normalization_7[3][0]      
+__________________________________________________________________________________________________
+conv2d_transpose_2 (Conv2DTrans (None, 48, 48, 1)    801         dropout_5[2][0]                  
+                                                                 dropout_5[3][0]                  
+__________________________________________________________________________________________________
+reshape_5 (Reshape)             (None, 48, 48, 1)    0           conv2d_transpose_2[2][0]         
+                                                                 conv2d_transpose_2[3][0]         
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 48, 48, 1)    0           reshape_5[2][0]                  
+                                                                 reshape_5[3][0]                  
+__________________________________________________________________________________________________
+lambda_17 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[3][0]               
+__________________________________________________________________________________________________
+lambda_18 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[2][0]               
+__________________________________________________________________________________________________
+dmerge_5 (Concatenate)          (None, 2, 48, 48, 1) 0           lambda_17[0][0]                  
+                                                                 lambda_18[0][0]                  
+==================================================================================================
+Total params: 15,174,329
+Trainable params: 15,025,679
+Non-trainable params: 148,650
+__________________________________________________________________________________________________
+Default float: float32
+@[     0.253 +     0.253] loaded puzzle
+Loading networks from samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755REALOneHotX0Y0by10/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x7f86f71af0a0>
+[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f86f71af0a0>
+<keras.layers.normalization.BatchNormalization object at 0x7f86f70d2700>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f86f70d2700>
+<keras.layers.core.Dropout object at 0x7f86f70d2df0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f86f70d2df0>
+<keras.layers.convolutional.Conv2D object at 0x7f86f70bcdc0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x7f86f70bcdc0>
+<keras.layers.normalization.BatchNormalization object at 0x7f86f70bce50>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f86f70bce50>
+<keras.layers.core.Dropout object at 0x7f86f70bcc10>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f86f70bcc10>
+latent space shape is (48, 48, 32) : 100 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x7f86f704c730>
+[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x7f86f704c730>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f86f704c760>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f86f704c760>
+<keras.layers.normalization.BatchNormalization object at 0x7f86f704c8b0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x7f86f704c8b0>
+<keras.layers.core.Dropout object at 0x7f86f704cee0>
+(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x7f86f704cee0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x7f86f704c880>
+(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x7f86f704c880>
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2, 48, 48, 1) 0                                            
+__________________________________________________________________________________________________
+lambda_6 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+lambda_5 (Lambda)               (None, 48, 48, 1)    0           input_1[0][0]                    
+__________________________________________________________________________________________________
+gaussian_noise_1 (GaussianNoise (None, 48, 48, 1)    0           lambda_5[0][0]                   
+                                                                 lambda_6[0][0]                   
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 48, 48, 1)    4           gaussian_noise_1[0][0]           
+                                                                 gaussian_noise_1[1][0]           
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 48, 48, 32)   800         batch_normalization_2[0][0]      
+                                                                 batch_normalization_2[1][0]      
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 48, 48, 32)   128         conv2d_1[0][0]                   
+                                                                 conv2d_1[1][0]                   
+__________________________________________________________________________________________________
+dropout_2 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_3[0][0]      
+                                                                 batch_normalization_3[1][0]      
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 48, 48, 32)   25600       dropout_2[0][0]                  
+                                                                 dropout_2[1][0]                  
+__________________________________________________________________________________________________
+batch_normalization_4 (BatchNor (None, 48, 48, 32)   128         conv2d_2[0][0]                   
+                                                                 conv2d_2[1][0]                   
+__________________________________________________________________________________________________
+dropout_3 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_4[0][0]      
+                                                                 batch_normalization_4[1][0]      
+__________________________________________________________________________________________________
+reshape_3 (Reshape)             (None, 73728)        0           dropout_3[0][0]                  
+                                                                 dropout_3[1][0]                  
+__________________________________________________________________________________________________
+input_2 (InputLayer)            (None, 24)           0                                            
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 100)          7372900     reshape_3[0][0]                  
+                                                                 reshape_3[1][0]                  
+__________________________________________________________________________________________________
+my_flatten_1 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+my_flatten_2 (MyFlatten)        (None, 24)           0           input_2[0][0]                    
+__________________________________________________________________________________________________
+binary_concrete_1 (BinaryConcre (None, 100)          0           dense_5[0][0]                    
+                                                                 dense_5[1][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 100)          2400        my_flatten_1[0][0]               
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 100)          2400        my_flatten_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_9 (BatchNor (None, 100)          400         binary_concrete_1[1][0]          
+__________________________________________________________________________________________________
+batch_normalization_8 (BatchNor (None, 100)          400         dense_7[0][0]                    
+__________________________________________________________________________________________________
+batch_normalization_11 (BatchNo (None, 100)          400         binary_concrete_1[0][0]          
+__________________________________________________________________________________________________
+batch_normalization_10 (BatchNo (None, 100)          400         dense_8[0][0]                    
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 100)          0           batch_normalization_9[0][0]      
+                                                                 batch_normalization_8[0][0]      
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 100)          0           batch_normalization_11[0][0]     
+                                                                 batch_normalization_10[0][0]     
+__________________________________________________________________________________________________
+binary_concrete_3 (BinaryConcre (None, 100)          0           add_2[0][0]                      
+__________________________________________________________________________________________________
+binary_concrete_2 (BinaryConcre (None, 100)          0           add_1[0][0]                      
+__________________________________________________________________________________________________
+batch_normalization_5 (BatchNor (None, 100)          400         binary_concrete_2[0][0]          
+                                                                 binary_concrete_3[0][0]          
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 73728)        7446528     batch_normalization_5[2][0]      
+                                                                 batch_normalization_5[3][0]      
+__________________________________________________________________________________________________
+batch_normalization_6 (BatchNor (None, 73728)        294912      dense_6[2][0]                    
+                                                                 dense_6[3][0]                    
+__________________________________________________________________________________________________
+dropout_4 (Dropout)             (None, 73728)        0           batch_normalization_6[2][0]      
+                                                                 batch_normalization_6[3][0]      
+__________________________________________________________________________________________________
+reshape_4 (Reshape)             (None, 48, 48, 32)   0           dropout_4[2][0]                  
+                                                                 dropout_4[3][0]                  
+__________________________________________________________________________________________________
+conv2d_transpose_1 (Conv2DTrans (None, 48, 48, 32)   25600       reshape_4[2][0]                  
+                                                                 reshape_4[3][0]                  
+__________________________________________________________________________________________________
+batch_normalization_7 (BatchNor (None, 48, 48, 32)   128         conv2d_transpose_1[2][0]         
+                                                                 conv2d_transpose_1[3][0]         
+__________________________________________________________________________________________________
+dropout_5 (Dropout)             (None, 48, 48, 32)   0           batch_normalization_7[2][0]      
+                                                                 batch_normalization_7[3][0]      
+__________________________________________________________________________________________________
+conv2d_transpose_2 (Conv2DTrans (None, 48, 48, 1)    801         dropout_5[2][0]                  
+                                                                 dropout_5[3][0]                  
+__________________________________________________________________________________________________
+reshape_5 (Reshape)             (None, 48, 48, 1)    0           conv2d_transpose_2[2][0]         
+                                                                 conv2d_transpose_2[3][0]         
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 48, 48, 1)    0           reshape_5[2][0]                  
+                                                                 reshape_5[3][0]                  
+__________________________________________________________________________________________________
+lambda_17 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[3][0]               
+__________________________________________________________________________________________________
+lambda_18 (Lambda)              (None, 1, 48, 48, 1) 0           activation_1[2][0]               
+__________________________________________________________________________________________________
+dmerge_5 (Concatenate)          (None, 2, 48, 48, 1) 0           lambda_17[0][0]                  
+                                                                 lambda_18[0][0]                  
+==================================================================================================
+Total params: 15,174,329
+Trainable params: 15,025,679
+Non-trainable params: 148,650
+__________________________________________________________________________________________________
